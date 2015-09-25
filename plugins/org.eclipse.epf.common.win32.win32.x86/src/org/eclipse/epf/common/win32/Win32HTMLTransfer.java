@@ -138,7 +138,7 @@ public class Win32HTMLTransfer extends ByteArrayTransfer {
 		buffer.getChars(0, count, chars, 0);
 		cchMultiByte = OS.WideCharToMultiByte(codePage, 0, chars, -1, null, 0,
 				null, null);
-		long lpMultiByteStr = OS.GlobalAlloc(OS.GMEM_FIXED | OS.GMEM_ZEROINIT,
+		int lpMultiByteStr = OS.GlobalAlloc(OS.GMEM_FIXED | OS.GMEM_ZEROINIT,
 				cchMultiByte);
 		OS.WideCharToMultiByte(codePage, 0, chars, -1, lpMultiByteStr,
 				cchMultiByte, null, null);
@@ -173,10 +173,10 @@ public class Win32HTMLTransfer extends ByteArrayTransfer {
 		data.Release();
 		if (transferData.result != COM.S_OK)
 			return null;
-		long hMem = stgmedium.unionField;
+		int hMem = stgmedium.unionField;
 
 		try {
-			long lpMultiByteStr = OS.GlobalLock(hMem);
+			int lpMultiByteStr = OS.GlobalLock(hMem);
 			if (lpMultiByteStr == 0)
 				return null;
 			try {
